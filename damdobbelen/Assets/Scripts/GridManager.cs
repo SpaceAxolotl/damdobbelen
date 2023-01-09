@@ -15,17 +15,14 @@ public class GridManager : MonoBehaviour
 
     void GenerateGrid()
     {
-        for (int x=0; x < _width; x++)
+        for (int i = 0; i < _width * _height; i++)
         {
-            for (int y=0; y <_height; y++)
-            {
-                var spawnedTile = Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity);
-                spawnedTile.name = $"Tile {x} {y}";
-                //tiles worden aangemaakt en er word een naam gegeven aan de tiles.
+            int x = i % _width;
+            int y = i / _width;
 
-                var isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0); //x (% is deelbaar door) dus x moet gedeeld kunnen worden door twee.
-                spawnedTile.Init(isOffset);
-            }
+            var spawnedTile = Instantiate(_tilePrefab, new Vector3(x, y), Quaternion.identity);
+            spawnedTile.name = $"Tile {x} {y}";
+            spawnedTile.Init((x % 2 == 0) != (y % 2 == 0));
         }
         _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
     }
