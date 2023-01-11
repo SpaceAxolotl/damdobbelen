@@ -11,6 +11,11 @@ public class Tile : MonoBehaviour
 
     // public Color colormemory;
 
+    private void Start()
+    {
+        targetColor = _renderer.material.color; //onthoudt de originele kleur van de tile for later use.
+    }
+
     public void Init(bool isOffset)
     {
         _renderer.material.color = isOffset ? _offsetColor : _baseColor; //als offset waar is, geef offsetkleur mee aan het object. anders geef de basecolor mee.

@@ -12,7 +12,7 @@ public class CheckersBoard : MonoBehaviour
 
     private void Start()
     {
-        GenerateBoard();
+        //GenerateBoard();
     }
     private void GenerateBoard()
     {
@@ -45,7 +45,7 @@ public class CheckersBoard : MonoBehaviour
         GameObject go = Instantiate((isPieceWhite)?whitePiecePrefab:blackPiecePrefab) as GameObject;
         go.transform.SetParent(transform);
         Piece p = go.GetComponent<Piece>();
-        pieces[ x, y] = p;
+        pieces[x, y] = p;
         MovePiece(p, x, y);
     }
 
