@@ -350,10 +350,10 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/CheckersBoard.cs"
-"Assets/Scripts/MovePieces.cs"
 "Assets/Scripts/Old Scripts/GridManager.cs"
 "Assets/Scripts/Old Scripts/Tile.cs"
 "Assets/Scripts/Piece.cs"
+"Assets/Scripts/PieceMovement.cs"
 -langversion:9.0
 
 /deterministic
