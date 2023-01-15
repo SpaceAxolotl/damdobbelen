@@ -112,7 +112,7 @@ public class CheckersBoard : MonoBehaviour
             return;
 
         Piece p = pieces[x, y];
-        if (p != null) //should be isWhite == isWhite, but I'm getting an error (&& p.isWhite == isWhite)
+        if (p != null ) //should be isWhite == isWhite, but I'm getting an error (&& p.isWhite == isWhite)
         {
             if (forcedPieces.Count == 0)
             {
@@ -121,16 +121,19 @@ public class CheckersBoard : MonoBehaviour
                 Debug.Log("je kunt niemand slaan");
                 
             }
-            else
+            else //if (forcedPieces.Count>=1) probleem: wil validmove gebruiken maar kan geen parameters meegeven want die bestaan niet
             {
                 //look for the piece under our forced pieces list
                 if (forcedPieces.Find(fp => fp == p) == null)
                     return;
                 selectedPiece = p;
                 startDrag = mouseOver;
+                Debug.Log("je kunt iemand slaan!");
             }
         }
     }
+
+    
 
     private void TryMove(int x1, int y1, int x2, int y2)
     {
@@ -182,7 +185,7 @@ public class CheckersBoard : MonoBehaviour
 
                 //were we supposed to kill anything?
 
-                if(forcedPieces.Count!=0 && !hasKilled)
+                if(forcedPieces.Count != 0 && !hasKilled)
                 {
                     MovePiece(selectedPiece, x1, y1);
                     startDrag = Vector2.zero;
@@ -249,7 +252,7 @@ public class CheckersBoard : MonoBehaviour
         //check all the pieces
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++)
-                if (pieces[i, j] != null && pieces[i, j].isWhite == isWhiteTurn)
+                if (pieces[i, j] != null && pieces[i, j].isWhite == isWhite)
                     if (pieces[i, j].IsForceToMove(pieces, i, j))
                         forcedPieces.Add(pieces[i, j]);
         return forcedPieces;
