@@ -137,7 +137,7 @@ public class CheckersBoard : MonoBehaviour
 
     private void TryMove(int x1, int y1, int x2, int y2)
     {
-        forcedPieces = ScanForPossibleMove();
+        //forcedPieces = ScanForPossibleMove();
 
         //multiplayer support
         startDrag = new Vector2(x1, y1);
@@ -171,8 +171,8 @@ public class CheckersBoard : MonoBehaviour
             if (selectedPiece.ValidMove(pieces, x1, y1, x2, y2))
             {
                 //did we kill anything?
-                //if this is a jump:
-                if (Mathf.Abs(x2 - x1) == 2)
+                
+                if (Mathf.Abs(x2 - x1) == 2)//is this a jump?
                 {
                     Piece p = pieces[(x1 + x2) / 2, (y1 + y2) / 2];
                     if (p != null)
@@ -181,6 +181,10 @@ public class CheckersBoard : MonoBehaviour
                         Destroy(p.gameObject);
                         hasKilled = true;
                     }
+                    pieces[x2, y2] = selectedPiece;
+                    pieces[x1, y1] = null;
+                    MovePiece(selectedPiece, x2, y2);
+                    EndTurn();
                 }
 
                 //were we supposed to kill anything?
@@ -248,13 +252,16 @@ public class CheckersBoard : MonoBehaviour
 
     private List<Piece> ScanForPossibleMove()
     {
+        Debug.Log("scanning for possible moves");
         forcedPieces = new List<Piece>();
+        
         //check all the pieces
         for (int i = 0; i < 8; i++)
             for (int j = 0; j < 8; j++)
-                if (pieces[i, j] != null && pieces[i, j].isWhite == isWhite)
+                if (pieces[i, j] != null && pieces[i, j].isWhite == isWhiteTurn)
                     if (pieces[i, j].IsForceToMove(pieces, i, j))
                         forcedPieces.Add(pieces[i, j]);
+        Debug.Log("forced pieces =" + forcedPieces);
         return forcedPieces;
     }
 }

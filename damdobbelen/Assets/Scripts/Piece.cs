@@ -12,30 +12,34 @@ public class Piece : MonoBehaviour
         {
             if(x>=2 && y <= 5)//top left
             {
+                Debug.Log("now using top left");
                 Piece p = board[x - 1, y + 1];
                 //if there is a piece, and it is not the same color as ours, we need to kill it
                 if(p!=null && p.isWhite != isWhite)
                 {
                     //check if it is possible to land after the jump
-                    if (board[x - 1, y + 2] == null)
-                        return true;
+                    if (board[x - 2, y + 2] == null)
+                        Debug.Log("this space is not occupied");
+                    return true;
                 }
             }
-        }
+       
         
             if (x <= 5 && y <= 5) //top right
             {
+            Debug.Log("now using top right");
                 Piece p = board[x + 1, y + 1];
                 //if there is a piece, and it is not the same color as ours, we need to kill it
                 if (p != null && p.isWhite != isWhite)
                 {
                     //check if it is possible to land after the jump
-                    if (board[x + 1, y + 2] == null)
-                        return true;
+                    if (board[x + 2, y + 2] == null)
+                    Debug.Log("this space is not occupied");
+                return true;
                 }
             }
-
-            else //same thing, but for black team
+        }
+        else //same thing, but for black team
         {
             if (x >= 2 && y >= 2)//bottom left
             {
@@ -44,7 +48,8 @@ public class Piece : MonoBehaviour
                 if (p != null && p.isWhite != isWhite)
                 {
                     //check if it is possible to land after the jump
-                    if (board[x - 1, y - 2] == null)
+                    if (board[x - 2, y - 2] == null)
+                        Debug.Log("this space is not occupied");
                         return true;
                 }
             }
@@ -57,8 +62,9 @@ public class Piece : MonoBehaviour
             if (p != null && p.isWhite != isWhite)
             {
                 //check if it is possible to land after the jump
-                if (board[x + 1, y - 2] == null)
-                    return true;
+                if (board[x + 2, y - 2] == null)
+                    Debug.Log("this space is not occupied");
+                return true;
             }
         }
         return false;
@@ -87,8 +93,8 @@ public class Piece : MonoBehaviour
             {
                 if(deltaMoveY==2)
                 {
-                    Piece p = board[(x1 + x2) / 2, (y1 + y2) / 2];
-                    if (p != null && p.isWhite != isWhite)
+                    Piece p = board[(x1 + x2) / 2, (y1 + y2) / 2]; //currently checking for the piece inbetween your original position and the position you want to move to
+                    if (p != null && p.isWhite != isWhite)//if this piece is not the same color as ours, we can jump over it.
                         return true;
                 }
             }
