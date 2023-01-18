@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
+    public int movesLeft=1000;
     public bool isWhite;
 
-    public bool IsForceToMove(Piece[,] board, int x, int y)
+    /*public bool IsForceToMove(Piece[,] board, int x, int y)
     {
         if (isWhite)
         {
@@ -68,23 +69,24 @@ public class Piece : MonoBehaviour
             }
         }
         return false;
-    }
+    }*/
         
     
 
 
     public bool ValidMove(Piece[,] board, int x1, int y1, int x2, int y2)
     {
-        //checks if you are moving on top of another piece
-        if(board[x2,y2] != null)
-        return false;
 
-        int deltaMove = (int)Mathf.Abs(x1 - x2); // checks how many tiles you are jumping in x axis
-        int deltaMoveY = y2 - y1; // checks how many tiles you are jumping in y axis
+        //checks if you are moving on top of another piece
+        if (board[x2, y2] != null)
+            return false;
+        Debug.Log("ik werk!");
+        int deltaMove = x1-x2; // checks how many tiles you are jumping in x axis
+        int deltaMoveY = y1 - y2; // checks how many tiles you are jumping in y axis
 
         if (isWhite)
         {
-            if(deltaMove==1)//how many jumps can you go? (hoe ver kan je piece gaan?)
+            /*if(deltaMove==1)//how many jumps can you go? (hoe ver kan je piece gaan?)
             {
                 if (deltaMoveY == 1) //als deltamove en deltamoveY 1 zijn, dan is dit een "valid move" (maar niet eentje waarmee je kunt slaan)
                     return true;
@@ -97,24 +99,57 @@ public class Piece : MonoBehaviour
                     if (p != null && p.isWhite != isWhite)//if this piece is not the same color as ours, we can jump over it.
                         return true;
                 }
+            }*/
+
+            //voor updated movementsysteem willen we ervoor zorgen dat je pieces een bepaald aantal stappen kunnen zetten. Dit doen we door "movesleft"
+
+        if((deltaMove==1 && deltaMoveY==0) || (deltaMove==-1 && deltaMoveY==0) || (deltaMove==0 && deltaMoveY==1) || (deltaMove==0 && deltaMoveY==-1))
+            { //1 stap naar links of naar rechts, of 1 stap naar boven of naar beneden. dit duurt 1 stap.
+                if (movesLeft >= 1) //hebben we nog wel moves over? zo ja:
+                {
+                    movesLeft = movesLeft - 1;
+                    return true;
+                }
+                else //zo niet:
+                    return false;                
+            }
+            else if ((deltaMove==2 && deltaMoveY==0) || (deltaMove==-2 && deltaMoveY==0) || (deltaMove==0 && deltaMoveY==2) || (deltaMove==0 && deltaMoveY==-2) ||
+                (deltaMove==1 && deltaMoveY==1) || (deltaMove == 1 && deltaMoveY == -1) || (deltaMove == -1 && deltaMoveY == 1) || (deltaMove == -1 && deltaMoveY == -1))
+            {
+                if (movesLeft >= 2) //hebben we nog wel moves over? zo ja:
+                {
+                    movesLeft = movesLeft - 2;
+                    return true;
+                }
+                else //zo niet:
+                    return false;
+                
             }
         }
 
         if (!isWhite)
         {
-            if (deltaMove == 1)
-            {
-                if (deltaMoveY == -1)
-                    return true;
-            }
-            else if (deltaMove == 2)
-            {
-                if (deltaMoveY == -2)
+            if ((deltaMove == 1 && deltaMoveY == 0) || (deltaMove == -1 && deltaMoveY == 0) || (deltaMove == 0 && deltaMoveY == 1) || (deltaMove == 0 && deltaMoveY == -1))
+            { //1 stap naar links of naar rechts, of 1 stap naar boven of naar beneden. dit duurt 1 stap.
+                if (movesLeft >= 1) //hebben we nog wel moves over? zo ja:
                 {
-                    Piece p = board[(x1 + x2) / 2, (y1 + y2) / 2];
-                    if (p != null && p.isWhite != isWhite)
-                        return true;
+                    movesLeft = movesLeft - 1;
+                    return true;
                 }
+                else //zo niet:
+                    return false;
+            }
+            else if ((deltaMove == 2 && deltaMoveY == 0) || (deltaMove == -2 && deltaMoveY == 0) || (deltaMove == 0 && deltaMoveY == 2) || (deltaMove == 0 && deltaMoveY == -2) ||
+                (deltaMove == 1 && deltaMoveY == 1) || (deltaMove == 1 && deltaMoveY == -1) || (deltaMove == -1 && deltaMoveY == 1) || (deltaMove == -1 && deltaMoveY == -1))
+            {
+                if (movesLeft >= 2) //hebben we nog wel moves over? zo ja:
+                {
+                    movesLeft = movesLeft - 2;
+                    return true;
+                }
+                else //zo niet:
+                    return false;
+
             }
         }
         return false;
